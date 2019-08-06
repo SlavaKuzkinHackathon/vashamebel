@@ -1,0 +1,55 @@
+﻿@model IEnumerable<vashamebel.Models.Admin.Product>
+@{
+    ViewData["Title"] = "Products";
+    Layout = "_LayoutAdmin";
+}
+
+<div class="m-1 p-2">
+    <form asp-action="Index" method="get" class="form-inline">
+        <label class="m-1">Продукция:</label>
+        <select name="product" class="form-control">
+            <option value="">Диван</option>
+        </select>
+        <br>
+        <label class="m-1">Минимальная стоимость:</label>
+        <input class="form-control" name="price" value="@ViewBag.price" />
+        <br>
+        <button class="btn btn-primary m-1">фильтр</button>
+    </form>
+ </div>
+<br>
+    <div class="table-responsive">
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr><th>ID</th><th>Наименование</th><th>Описание</th><th>Стоимость</th><th>Количество</th><th>Имя файла</th><th>Изображение</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                <tr>
+                    <td>@p.Id</td>
+                    <td>@p.Name</td>
+                    <td>@p.Description</td>
+                    <td>@p.Price.ToString("F2") &#8381</td>
+                    <td>@p.InQuantity</td>
+                    <td>@p.NameImage</td>
+                    <td><img style='height:65px'; src="@Url.Content(p.Path)"></td>
+                    <td>
+                        <form asp-action="Delete" method="post">
+                            <a asp-action="Edit" class="btn btn-sm btn-warning"
+                               asp-route-id="@p.Id">
+                                Изменить
+                            </a>
+                            <input type="hidden" name="id" value="@p.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                удалить
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        <br>
+        <a asp-action="Create" class="btn btn-primary">Добавить новый продукт</a>
+    </div>

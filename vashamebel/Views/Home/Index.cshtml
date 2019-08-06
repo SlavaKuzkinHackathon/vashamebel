@@ -1,0 +1,142 @@
+﻿@model IEnumerable<vashamebel.Models.Admin.Product>
+
+@{
+    ViewData["Title"] = "Диваны в Новосибирске";
+}
+ <div class="container">
+     <div class="class="col-lg-8 col-md-4 col-sm-6 col-xs-12>
+                    
+    <h4  class="text-center">На рынке с 1999 года
+      Широкий ассортимент
+      Гарантия качества</h4>
+    <h5 class="text-center">изготовление по индивидуальный размерам</h5>
+        <h5 class="text-center">г. Новосибирск ТЦ "Большая медведица" ул.Светлановская, 50
+    <span>Второй этаж</span></h5>
+    <h5 class="text-center"><i class="fa fa-phone" aria-hidden="true"></i>  +79139574970</h5>
+     </div>
+ </div>
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="~/css/site.css" />
+<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+
+<div>
+    <!-- banner -->
+    <div id="myCarousel" class="carousel slide " data-ride="carousel" style="display: inline-block;">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1" class=""></li>
+                <li data-target="#myCarousel" data-slide-to="2" class=""></li>
+            </ol>
+        <div class="carousel-inner" role="listbox">
+            <div class="carousel-inner">
+                <div class="item active">
+                    <img src="~/images/public/banner1.jpg">
+                </div>
+                <div class="item item2">
+                    <img src="~/images/public/banner2.jpg">
+                </div>
+                <div class="item item3">
+                    <img src="~/images/public/banner3.jpg">
+                </div>
+            </div>
+            <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Предыдуший</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Следующий</span>
+                </a>
+        </div>
+    </div>
+</div>
+
+<div class="m-1 p-2">
+    <form asp-action="Index" method="get" class="form-inline">
+        @*<label class="m-1">Продукция:</label>
+        <select name="product" class="form-control">
+            <option value="">Диван</option>
+        </select>
+        <label class="m-1"> от:</label>*@
+        <input class="form-control" name="price" placeholder=" Поиск по стоимости от" value="@ViewBag.price" />
+        <br>
+        <button class="btn btn btn-default btn-sm m-7">поиск</button>
+    </form>
+</div>
+<br>
+
+
+
+
+@foreach (var f in Model)
+{
+    <div class="col">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="margin-bottom:8px">
+            <div class="thumbnail product-item" style="width:300px, auto">
+                <br>
+                <img alt="" class="img center, img-responsive" title="Подробно о модели"
+                     style="cursor:pointer; height:129px;"
+                     src="@Url.Content(f.Path)" />
+                <div class="caption">
+                    <h3>
+                        @Html.ActionLink(f.Name, "Details",
+                        new { id = f.Id }, new { @class = "proItem" })
+                    </h3>
+                    <h4>
+                        @Html.ActionLink(f.Description, "Details",
+                        new { id = f.Id }, new { @class = "proItem" })
+                    </h4>
+                    <p>@f.Price &#8381</p>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section scripts
+    {
+    <script type="text/javascript">
+        $(function () {
+            $.ajaxSetup({ cache: false });
+            $(".proItem").click(function (e) {
+
+                e.preventDefault();
+                $.get(this.href, function (data) {
+                    $('#dialogContent').html(data);
+                    $('#modDialog').modal('show');
+                    $('#myModal').modal('handleUpdate');
+                });
+            });
+        })
+    </script>
+}
+
+
+
+
+<!--запасной-->
+@*@foreach (var f in Model)
+    {
+        <div class="col">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="margin-bottom:8px">
+                <div class="thumbnail product-item" style="height:300px">
+                    <img alt="" class="img center, img-responsive" title="Click to View Product detail"
+                         style="cursor:pointer; height:129px;"
+                         src="@Url.Content(f.Path)" />
+                    <div class="caption">
+                        <h3>@f.Name</h3>
+                        <h4>
+                            @f.Description
+                        </h4>
+                        <p>@f.Price &#8381</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }*@
